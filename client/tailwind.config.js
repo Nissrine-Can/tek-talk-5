@@ -8,13 +8,18 @@ module.exports = {
       colors: {
         app_dark: {
           DEFAULT: '#030303',
-          brighter: '#272728',
+          brighter: '#1a1a1a',
+          brightest: '#272728',
         },
         app_border: {
           DEFAULT: '#343536',
         },
         app_banner: {
           DEFAULT: '#E34363'
+        },
+        app_text: {
+          DEFAULT: 'rgb(215, 218, 220)',
+          darker: '#818384',
         }
       }
     },
