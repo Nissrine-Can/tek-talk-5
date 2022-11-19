@@ -26,7 +26,7 @@ const AuthModal = () => {
 
   const register = async e => {
     e.preventDefault();
-  
+    
     const resp = await fetch('/signup', {
       method: "POST",
       headers: {
@@ -67,7 +67,7 @@ const AuthModal = () => {
 
   return (
     <div 
-        className={'w-screen h-screen fixed top-0 left-0 z-20 flex ' + visibleClass}
+        className={'w-screen h-screen fixed top-0 left-0 z-30 flex ' + visibleClass}
         style={{backgroundColor: 'rgba(0, 0, 0, .6)'}}
     >
       <ClickOutHandler onClickOut={() => modalContext.setShow(false)}>
