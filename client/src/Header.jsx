@@ -14,6 +14,7 @@ import AuthModalContext from './AuthModalContext';
 import avatar from './avatar.png';
 import Button from './Button';
 import UserContext from './UserContext';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
 
@@ -35,9 +36,9 @@ const Header = () => {
       <header className='w-full bg-app_dark p-2'>
 
             <div className='mx-4 flex relative'>
-
+              <Link to='/'>
                 <HiOutlineCode className='w-8 h-8 mr-4 text-white' />
-
+              </Link>
                 <form action='' className='bg-app_dark-brighter px-3 mx-4 flex rounded-md border border-app_border flex-grow'>
 
                     <HiSearch className='text-gray-300 h-6 w-6 mt-1'/>
