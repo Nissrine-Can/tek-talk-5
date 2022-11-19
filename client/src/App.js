@@ -1,22 +1,24 @@
-import AuthModal from './AuthModal';
 import AuthModalContext from './AuthModalContext';
 import UserContext from './UserContext';
-import BoardHeader from './BoardHeader';
-import Header from './Header';
-import PostForm from './PostForm';
 import { useState, useEffect } from 'react';
-import Post from './Post';
+
+import PostFormModalContext from './PostFormModalContext';
+import Routing from './Routing';
 
 
 function App() {
 
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showPostFormModal, setShowPostFormModal] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  
+  
 
   useEffect(() => {
     const token = localStorage.getItem('jwt');
     if(token) {
       fetch('/get-current-user', {
+       
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -25,22 +27,27 @@ function App() {
       })
       .then(resp => resp.json())
       .then(data => setCurrentUser(data))
+
     };
+
   }, [])
 
   function logout(){
-    setCurrentUser({})
+
+      localStorage.setItem('jwt', 'undefined');
+      setCurrentUser({})
+     
   }
 
   return (
     <AuthModalContext.Provider value={{show: showAuthModal, setShow: setShowAuthModal}}>
-      <UserContext.Provider value={{...currentUser, logout, setCurrentUser}}>
-          <Header />
-          <AuthModal />
-          <BoardHeader />
-          <PostForm />
-          <Post />
-      </UserContext.Provider>
+      <PostFormModalContext.Provider value={{show: showPostFormModal, setShow: setShowPostFormModal}}>
+          <UserContext.Provider value={{...currentUser, logout, setCurrentUser}}>
+
+             <Routing/>  
+                    
+          </UserContext.Provider>
+      </PostFormModalContext.Provider>
     </AuthModalContext.Provider>
   );
 }
