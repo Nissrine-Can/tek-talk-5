@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Board from './Board';
 import PostModal from './PostModal';
 import PostPage from './PostPage';
+import SearchResultPage from './SearchResultPage';
 
 
 const RoutingRoutes = () => {
@@ -28,10 +29,6 @@ const RoutingRoutes = () => {
     setPostOpen(true)
     postOpen = null
   }, [postId, postOpen])
-
-  // useEffect(() => {
-  //   postOpen = null
-  // }, [postOpen])
   
   return (
     <div>
@@ -45,8 +42,11 @@ const RoutingRoutes = () => {
         </div>
       )}
       <Routes location={location}>
-          <Route exact path='/' element={<Board />} />
+          <Route path='/' element={<Board />} />
+          <Route path='/topics/:name' element={<Board />} />
           <Route path='/posts/:id' element={<PostPage />}/>
+          <Route path='/search/:text' element={<SearchResultPage />} />
+          
       </Routes>
     </div>
   )
