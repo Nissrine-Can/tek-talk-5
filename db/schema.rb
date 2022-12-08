@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_12_003026) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_02_162047) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,6 +35,30 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_12_003026) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "topic_posts", force: :cascade do |t|
+    t.bigint "topic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "post_id"
+    t.index ["post_id"], name: "index_topic_posts_on_post_id"
+    t.index ["topic_id"], name: "index_topic_posts_on_topic_id"
+  end
+
+  create_table "topic_users", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "topic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["topic_id"], name: "index_topic_users_on_topic_id"
+    t.index ["user_id"], name: "index_topic_users_on_user_id"
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "username"
@@ -43,7 +67,23 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_12_003026) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.bigint "post_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "upvote"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_votes_on_post_id"
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "topic_posts", "posts"
+  add_foreign_key "topic_posts", "topics"
+  add_foreign_key "topic_users", "topics"
+  add_foreign_key "topic_users", "users"
+  add_foreign_key "votes", "posts"
+  add_foreign_key "votes", "users"
 end
