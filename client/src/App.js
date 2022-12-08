@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 import PostFormModalContext from './PostFormModalContext';
 import Routing from './Routing';
+import { TopicContextProvider } from './TopicContext';
 
 
 function App() {
@@ -11,7 +12,6 @@ function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showPostFormModal, setShowPostFormModal] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  
   
 
   useEffect(() => {
@@ -42,11 +42,13 @@ function App() {
   return (
     <AuthModalContext.Provider value={{show: showAuthModal, setShow: setShowAuthModal}}>
       <PostFormModalContext.Provider value={{show: showPostFormModal, setShow: setShowPostFormModal}}>
+        <TopicContextProvider>
           <UserContext.Provider value={{...currentUser, logout, setCurrentUser}}>
-
-             <Routing/>  
-                    
+           
+              <Routing/> 
+           
           </UserContext.Provider>
+        </TopicContextProvider>
       </PostFormModalContext.Provider>
     </AuthModalContext.Provider>
   );
