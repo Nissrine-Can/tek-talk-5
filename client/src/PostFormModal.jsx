@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ClickOutHandler from 'react-clickout-handler';
 import Input from './Input';
 import Textarea from './TextArea';
@@ -7,22 +7,53 @@ import PostFormModalContext from './PostFormModalContext';
 import UserContext from './UserContext';
 import AuthModalContext from './AuthModalContext';
 import { useNavigate } from 'react-router-dom';
+// import { TopicContext } from './TopicContext';
+// import Dropdown from './Dropdown';
+// import SelectDropdown from './SelectDropdown';
+import { Select, Option } from "@material-tailwind/react";
 
 
 const PostFormModal = () => {
+
+  const [topics, setTopics] = useState([])
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwt');
+    if(token) {
+
+          fetch('/topics', {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': `bearer ${token}`
+            }
+          })
+          .then(resp => resp.json())
+          .then(data => {
+            //console.log(data)
+            setTopics(data)
+          })
+    }
+   }, [])
 
     const modalContext = useContext(PostFormModalContext);
     const user = useContext(UserContext);
     const authModalContext =useContext(AuthModalContext);
 
+    // const { topic } = useContext(TopicContext);
+
     const visibleClass = modalContext.show ? 'block' : 'hidden';
+
 
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
+    const [selectedTopic, setSelectedTopic] = useState('');
 
     const navigate = useNavigate();
 
-    function createPost() { 
+
+    function createPost(e) { 
+       e.preventDefault()
        
     const token = localStorage.getItem('jwt');
     if(token) {
@@ -36,18 +67,19 @@ const PostFormModal = () => {
            body: JSON.stringify({
             title: title, 
             body: body,
-            user_id: user.id
-        })
+            user_id: user.id,
+            topic_ids: [parseInt(selectedTopic)]
+           })
         })
         .then(resp => {
             if(resp.status !== 401) {
-              return  resp.json()
+             return resp.json()
             } else {
-                authModalContext.setShow('login')
+              authModalContext.setShow('login')
             }
         })
         .then(data => {
-            //console.log(data);
+            console.log(data);
             navigate(`/posts/${data.id}`)
             modalContext.setShow(false)
          })
@@ -66,14 +98,48 @@ const PostFormModal = () => {
 
             <Input 
                value={title}
+               name= 'title'
+              
                onChange={(e) => setTitle(e.target.value)}
                className='w-full mb-3' 
                placeholder='Title'/>
             <Textarea 
                value={body}
+               name= 'body'
+              
                onChange={(e) => setBody(e.target.value)}
                className='w-full mb-3' 
                placeholder='Post text' />
+              <div className="w-72 mb-3">
+                 <Select 
+                    
+                    onChange={(value) => {
+                    setSelectedTopic(value)
+                  
+                 }
+                 }
+                label="Select Topic">
+                {topics.map((topic) => (
+                  
+                  
+                 <Option index={topic.id} value={`${topic.id}`} key={topic.id}>{topic?.name}</Option>
+                 
+                ))}
+                
+                  </Select>
+              </div>
+               {/* <SelectDropdown 
+                value={selectedTopic}
+                setSelectedTopic={setSelectedTopic}
+              
+                selected
+                /> */}
+            {/* <Dropdown 
+              value={selectedTopic}
+              name= 'selectedTopic'
+             
+              onSelect={handleSelect}
+            /> */}
             <div className='text-right'>
               <Button 
                 outline={1}
@@ -82,7 +148,8 @@ const PostFormModal = () => {
                 >Cancel
                 </Button>
               <Button 
-                onClick={() => createPost()}
+                onClick={createPost}
+                type='submit'
                 className='px-4 py-2'
                 >POST
                 </Button>

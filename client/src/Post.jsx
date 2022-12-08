@@ -22,9 +22,12 @@ const Post = (props) => {
           </div>
         )}
         {!props.open && (
+          <>
           <Link to={{pathname:'/posts/'+props.id}} state={{postId: props.id}} className={postClasses}> 
             <PostContent {...props} />
           </Link>
+          
+          </>
         )}
         
       </div>
