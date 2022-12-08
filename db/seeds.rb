@@ -1,8 +1,8 @@
 require 'faker';
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-puts 'user'
-User.create(username: 'test123', email: 'test123@email.com', password: '123')
+# puts 'user'
+# User.create(username: 'test123', email: 'test123@email.com', password: '123')
 puts 'posts..'
 
 5.times do
