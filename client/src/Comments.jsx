@@ -2,13 +2,13 @@ import React from 'react'
 import TimeAgo from 'timeago-react';
 
 const Comments = (props) => {
-  const filteredComments = props.comments.filter(comment => comment.post.id === props.postId);
+  // const filteredComments = props.comments.filter(comment => comment.post.id === props.postId);
 
- 
+
 
   return (
     <div className='mb-2 text-app_text'>
-      {filteredComments.map(comment => (
+      {props.comments.map(comment => (
         
         <div className='mb-3' key={comment.id}>
           <div className='flex mb-2'>
