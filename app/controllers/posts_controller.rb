@@ -35,10 +35,7 @@ class PostsController < ApplicationController
         end
     end
 
-    def my_posts
-        render json: current_user.posts, status: :ok
-    end
-
+    
     def update
         if @post
           if @video.update(post_params)
