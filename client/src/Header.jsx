@@ -81,11 +81,11 @@ const Header = () => {
 
                 {user.username && (
                   <>
-                    <Link to='/my-posts'>
+                    
                       <button className='px-2 py-1'>
                         <HiOutlineChat className='text-gray-400 w-6 h-6 mx-2'/>
                       </button>
-                    </Link>
+                   
                     <button className='px-2 py-1'>
                       <HiOutlineBell className='text-gray-400 w-6 h-6 mx-2'/>
                     </button>
