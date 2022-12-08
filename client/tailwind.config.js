@@ -1,5 +1,7 @@
+const withMT = require("@material-tailwind/react/utils/withMT");
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+module.exports = withMT({
   content: [
     "./src/**/*.{js,jsx}",
   ],
@@ -13,6 +15,7 @@ module.exports = {
         },
         app_border: {
           DEFAULT: '#343536',
+          darker: '#030303'
         },
         app_banner: {
           DEFAULT: '#E34363'
@@ -25,4 +28,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+})
