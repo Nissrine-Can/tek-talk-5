@@ -14,12 +14,23 @@ import AuthModalContext from './AuthModalContext';
 import avatar from './avatar.png';
 import Button from './Button';
 import UserContext from './UserContext';
+import PostFormModalContext from './PostFormModalContext';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+import { useNavigate } from 'react-router-dom';
+import { TopicContext } from './TopicContext';
 
-  const [userDropdownVisibilityClass, setUserDropdownVisibilityClass] = useState('hidden')
+const Header = () => {
+  const navigate = useNavigate();
+
+  const [userDropdownVisibilityClass, setUserDropdownVisibilityClass] = useState('hidden');
+  const [plusDropdownVisibilityClass, setPlusDropdownVisibilityClass] = useState('hidden');
+  const {setShow: setShowAddPost} = useContext(PostFormModalContext)
+  const {setShow: setShowTopic} = useContext(TopicContext)
+
+  const [searchText, setSearchText] = useState('');
   
+
   function toggleUserDropdown() {
     if (userDropdownVisibilityClass === 'hidden') {
        setUserDropdownVisibilityClass('block')
@@ -27,6 +38,21 @@ const Header = () => {
        setUserDropdownVisibilityClass('hidden')
     }
   };
+
+  const searchPosts = term => {
+    fetch("/posts?search=" + term)
+    .then(resp => resp.json())
+    .then(data => console.log(data))
+  }
+
+  const handleSubmit = e => {
+   e.preventDefault();
+   
+      searchPosts(searchText)
+      setSearchText('')
+
+    navigate(`/search/${searchText}`)
+  }
 
   const authModal = useContext(AuthModalContext);
   const user = useContext(UserContext);
@@ -39,7 +65,7 @@ const Header = () => {
               <Link to='/'>
                 <HiOutlineCode className='w-8 h-8 mr-4 text-white' />
               </Link>
-                <form action='' className='bg-app_dark-brighter px-3 mx-4 flex rounded-md border border-app_border flex-grow'>
+                <form onSubmit={handleSubmit} className='bg-app_dark-brighter px-3 mx-4 flex rounded-md border border-app_border flex-grow'>
 
                     <HiSearch className='text-gray-300 h-6 w-6 mt-1'/>
 
@@ -47,21 +73,50 @@ const Header = () => {
                         className='bg-app_dark-brighter text-sm text-white p-1 pl-2 pr-0 block focus:outline-none' 
                         type='text' 
                         placeholder='Search'
+                        value={searchText}
+                        onChange={e => setSearchText(e.target.value)}
                     />
 
                 </form>
 
                 {user.username && (
                   <>
-                    <button className='px-2 py-1'>
-                      <HiOutlineChat className='text-gray-400 w-6 h-6 mx-2'/>
-                    </button>
+                    <Link to='/my-posts'>
+                      <button className='px-2 py-1'>
+                        <HiOutlineChat className='text-gray-400 w-6 h-6 mx-2'/>
+                      </button>
+                    </Link>
                     <button className='px-2 py-1'>
                       <HiOutlineBell className='text-gray-400 w-6 h-6 mx-2'/>
                     </button>
-                    <button className='px-2 py-1'>
-                      <HiPlusSm className='text-gray-400 w-6 h-6 mx-2'/>
-                    </button>
+                    <ClickOutHandler onClickOut={() => setPlusDropdownVisibilityClass('hidden')}>
+                      <button className='px-2 py-1' onClick={() => setPlusDropdownVisibilityClass('block')}>
+                        <HiPlusSm className='text-gray-400 w-6 h-6 mx-2'/>
+                      </button>
+                      <div className='relative'> 
+                        <div className={'absolute right-0 bg-app_dark border border-gray-700 z-10 rounded-md text-app_text overflow-hidden '+plusDropdownVisibilityClass} style={{width:'250px'}}>
+                          
+                            <button
+                              className='flex w-full py-2 px-3 hover:bg-gray-300 hover:text-black text-sm'
+                              onClick={() => {
+                                setShowAddPost(true);
+                                setPlusDropdownVisibilityClass('hidden');
+                                }}>
+                                <HiPlusSm className='w-5 h-5 mr-2'/>
+                              Create Post
+                            </button>
+                            <button
+                              className='flex w-full py-2 px-3 hover:bg-gray-300 hover:text-black text-sm'
+                              onClick={() => {
+                                setShowTopic(true);
+                                setPlusDropdownVisibilityClass('hidden');
+                              }}>
+                                <HiPlusSm className='w-5 h-5 mr-2'/>
+                              Create Topic
+                            </button>
+                         </div>
+                      </div>
+                    </ClickOutHandler>
                   </>
                 )}
 
