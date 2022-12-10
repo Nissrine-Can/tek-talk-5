@@ -7,7 +7,7 @@ class PostsController < ApplicationController
         @posts = Post.all.order(created_at: :desc)
            
         if params[:search]
-        @posts = posts.where('lower(body) LIKE ?', "%#{params[:search].downcase}%")
+        @posts = @posts.where('lower(body) LIKE ?', "%#{params[:search].downcase}%")
         elsif params[:name]
         @topic_name = Topic.find_by(name: params[:name])
         @posts = @topic_name.posts
@@ -27,7 +27,6 @@ class PostsController < ApplicationController
         @post = Post.create(post_params)
         @post.topic_posts.create({post_id: @post.id, topic_id: params['topic_ids'][0]})
         
-        # post.user_id = current_user.id
         if @post.save
             render json: @post, status: :ok
         else

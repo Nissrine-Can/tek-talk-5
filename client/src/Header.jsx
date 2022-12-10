@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 
 import { useNavigate } from 'react-router-dom';
 import { TopicContext } from './TopicContext';
+import PostContext from './PostContext';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ const Header = () => {
   const [plusDropdownVisibilityClass, setPlusDropdownVisibilityClass] = useState('hidden');
   const {setShow: setShowAddPost} = useContext(PostFormModalContext)
   const {setShow: setShowTopic} = useContext(TopicContext)
+
+  const postInfo = useContext(PostContext)
 
   const [searchText, setSearchText] = useState('');
   
@@ -39,19 +42,20 @@ const Header = () => {
     }
   };
 
-  const searchPosts = term => {
-    fetch("/posts?search=" + term)
-    .then(resp => resp.json())
-    .then(data => console.log(data))
-  }
+  // const searchPosts = term => {
+  //   fetch("/posts?search=" + term)
+  //   .then(resp => resp.json())
+  //   .then(data => console.log(data))
+  // }
 
   const handleSubmit = e => {
    e.preventDefault();
    
-      searchPosts(searchText)
+      postInfo.searchPosts(searchText)
       setSearchText('')
+      
 
-    navigate(`/search/${searchText}`)
+     navigate(`/search/${searchText}`)
   }
 
   const authModal = useContext(AuthModalContext);

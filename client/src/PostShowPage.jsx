@@ -174,12 +174,13 @@ const PostShowPage = (props) => {
     </button>
 
     </div>
-              
-              </>  
-        )} 
-       
-        <hr className='border-app_border my-4'/>
-        <CommentForm {...post} addComment={addComment} />
+   </>  
+  )} 
+          <hr className='border-app_border my-4'/>
+          <CommentForm {...post} addComment={addComment} />
+        
+
+        
         <hr className='border-app_border my-4'/>
          {!!comments && (
             <Comments postId={post.id} comments={comments} />
