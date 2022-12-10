@@ -53,7 +53,7 @@ const PostFormModal = () => {
 
 
     function createPost(e) { 
-       e.preventDefault()
+    e.preventDefault()
        
     const token = localStorage.getItem('jwt');
     if(token) {
@@ -82,9 +82,12 @@ const PostFormModal = () => {
             console.log(data);
             navigate(`/posts/${data.id}`)
             modalContext.setShow(false)
+            setTitle('')
+            setBody('')
+            setSelectedTopic('')
          })
-    }
-    };
+       }
+      };
 
 
   return (
@@ -111,22 +114,18 @@ const PostFormModal = () => {
                className='w-full mb-3' 
                placeholder='Post text' />
               <div className="w-72 mb-3">
-                 <Select 
-                    
-                    onChange={(value) => {
-                    setSelectedTopic(value)
-                  
-                 }
-                 }
-                label="Select Topic">
+                
+              <Select 
+                  onChange={(value) => {
+                  setSelectedTopic(value)
+                  }}
+                  label="Select Topic">
                 {topics.map((topic) => (
-                  
-                  
-                 <Option index={topic.id} value={`${topic.id}`} key={topic.id}>{topic?.name}</Option>
+                  <Option index={topic.id} value={`${topic.id}`} key={topic.id}>{topic?.name}</Option>
                  
                 ))}
-                
-                  </Select>
+              </Select>
+
               </div>
                {/* <SelectDropdown 
                 value={selectedTopic}

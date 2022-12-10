@@ -6,8 +6,10 @@ import PopUp from './PopUp';
 import { TopicContext } from './TopicContext';
 import { useNavigate } from 'react-router-dom';
 
+
 const TopicFormModal = () => {
     //const user = useContext(UserContext);
+
     const navigate = useNavigate();
 
     const [name, setName] = useState('');
@@ -37,6 +39,7 @@ const TopicFormModal = () => {
         .then(data => {
             console.log(data);
             navigate(`/topics/${name}`)
+            //navigate('/')
             setShow(false)
             setName('')
             
