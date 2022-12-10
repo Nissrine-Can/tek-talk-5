@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
     before_action :set_post
+    # skip_before_action :authorized, only: [:index]
 
 
     def index 
