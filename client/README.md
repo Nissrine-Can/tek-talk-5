@@ -1,3 +1,16 @@
+# TekTalk App 
+
+This Project consist of application where the user can creates posts, topics, and comments on posts. The user can also like or dislike a post. 
+
+# Entity Relationship Diagram
+
+![entity relationship diagram](https://user-images.githubusercontent.com/88294699/206871343-5e716dea-2be8-4af0-8d50-341208bc61ee.png)
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
