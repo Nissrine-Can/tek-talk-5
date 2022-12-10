@@ -6,8 +6,12 @@ This Project consist of application where the user can creates posts, topics, an
 
 ![entity relationship diagram](https://user-images.githubusercontent.com/88294699/206871343-5e716dea-2be8-4af0-8d50-341208bc61ee.png)
 
+# Technologies
 
-
+- PostgreSQL  (~> 1.1) database
+- React (^18.2.0) framework for frontend
+- Ruby (2.7.4) on Rails rails (~> 7.0.4) (API only) for backend
+- Tailwind CSS & Material-tailwind/React for styling
 
 
 
