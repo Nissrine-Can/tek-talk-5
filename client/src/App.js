@@ -5,13 +5,25 @@ import { useState, useEffect } from 'react';
 import PostFormModalContext from './PostFormModalContext';
 import Routing from './Routing';
 import { TopicContextProvider } from './TopicContext';
-
+import PostContext from './PostContext';
+import './app.css'
 
 function App() {
 
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showPostFormModal, setShowPostFormModal] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+
+  const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+
+  const searchPosts = term => {
+    fetch("/posts?search=" + term)
+    .then(resp => resp.json())
+    .then(data => setSearchResults(data))
+  }
+
   
 
   useEffect(() => {
@@ -27,8 +39,21 @@ function App() {
       })
       .then(resp => resp.json())
       .then(data => setCurrentUser(data))
-
     };
+
+      // fetch('/posts', {
+      //       headers: {
+      //         'Accept': 'application/json',
+      //         'Content-Type': 'application/json',
+      //         'Authorization': `bearer ${token}`
+      //       }
+      //     })
+      //     .then(resp => resp.json())
+      //     .then(data => {
+      //       console.log(data)
+      //       setPosts(data)
+      //       //setFilteredPosts(data)
+      //     })
 
   }, [])
 
@@ -44,8 +69,11 @@ function App() {
       <PostFormModalContext.Provider value={{show: showPostFormModal, setShow: setShowPostFormModal}}>
         <TopicContextProvider>
           <UserContext.Provider value={{...currentUser, logout, setCurrentUser}}>
-           
-              <Routing/> 
+            <PostContext.Provider value={{posts, setPosts, filteredPosts, setFilteredPosts, searchPosts, searchResults }}>
+              
+                <Routing/> 
+              
+            </PostContext.Provider>
            
           </UserContext.Provider>
         </TopicContextProvider>
