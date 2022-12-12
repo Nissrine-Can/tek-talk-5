@@ -2,19 +2,19 @@ import React, { useState, useEffect, useContext } from 'react'
 import Post from './Post';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-//import { TopicContext } from './TopicContext';
+import { TopicContext } from './TopicContext';
 import PostContext from './PostContext';
 
 
 const PostsList = () => {
     // const [posts, setPosts] = useState([]);
-    const [topics, setTopics] = useState([]);
+    //const [topics, setTopics] = useState([]);
     // const [filteredPosts, setFilteredPosts] = useState([]);
 
     //const {topic} = useContext(TopicContext)
 
     const postContext = useContext(PostContext)
-
+    const topicContext = useContext(TopicContext)
     const {name} = useParams()
 
 
@@ -55,14 +55,14 @@ const PostsList = () => {
           .then(resp => resp.json())
           .then(data => {
             console.log(data)
-            setTopics(data)
+            topicContext.setTopics(data)
           })
     }
    }, [name])
 
    
 
-   const topicList = topics.map((topic) => (
+   const topicList = topicContext.topics.map((topic) => (
       <Link key={topic.id} to={`/topics/${topic.name}`}><li className={'m-3 text-blue-400 hover:underline hover:text-blue-800 active:text-white active:font-bold'}
       >{topic.name}</li></Link>
    ))

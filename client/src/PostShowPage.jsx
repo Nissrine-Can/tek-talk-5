@@ -176,9 +176,16 @@ const PostShowPage = (props) => {
     </div>
    </>  
   )} 
-          <hr className='border-app_border my-4'/>
+       {user.username && (
+        <>
+           <hr className='border-app_border my-4'/>
           <CommentForm {...post} addComment={addComment} />
         
+        </>
+       )}
+          {/* <hr className='border-app_border my-4'/>
+          <CommentForm {...post} addComment={addComment} />
+         */}
 
         
         <hr className='border-app_border my-4'/>

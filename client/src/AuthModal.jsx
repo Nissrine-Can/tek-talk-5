@@ -18,52 +18,92 @@ const AuthModal = () => {
   const modalContext = useContext(AuthModalContext);
   const user = useContext(UserContext);
 
+  const [errors, setErrors] = useState([])
+  const [error, setError] = useState('')
+
   const visibleClass = modalContext.show ? 'block' : 'hidden';
   if (modalContext.show && modalContext.show !== modalType) {
     setModalType(modalContext.show);
   }
 
 
-  const register = async e => {
+  const register = e => {
     e.preventDefault();
     
-    const resp = await fetch('/signup', {
+     fetch('/signup', {
       method: "POST",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({email, username, password})
+    }).then(resp => {
+      if(resp.status !== 404) {
+        return resp.json()
+      } else {
+        throw new Error(resp.statusText)
+      }
+    }).then(data => {
+      if(data.errors) {
+        setErrors(data.errors)
+        
+        setEmail('');
+        setUsername('');
+        setPassword('');
+      } else {
+        localStorage.setItem('jwt', data.jwt);
+        console.log(data)
+        user.setCurrentUser(data.user)
+        modalContext.setShow(false);
+        setEmail('');
+        setUsername('');
+        setPassword('');
+        setErrors([])
+        
+      }
     })
+    .catch(errors => console.log(errors))
 
-      const data = await resp.json();
-      localStorage.setItem('jwt', data.jwt);
-      console.log(data)
-      user.setCurrentUser(data.user)
-      modalContext.setShow(false);
-      setEmail('');
-      setUsername('');
-      setPassword('');
   };
   
-  const login = async e => {
-    const resp = await fetch('/login', {
+  const login = e => {
+    fetch('/login', {
       method: "POST",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({username, password})
-    })
+    }).then(resp => {
+      if(resp.status !== 404) {
+        return resp.json()
+      } else {
+        throw new Error(resp.statusText)
+      }
+    }).then(data => {
+      console.log(data, 'data')
+      if(data.message) {
+        setError(data.message)
+        
+        
+        setUsername('');
+        setPassword('');
 
-    const data = await resp.json();
-      localStorage.setItem('jwt', data.jwt);
-      user.setCurrentUser(data.user)
-      modalContext.setShow(false);
-      setUsername('');
-      setPassword('');
+      } else {
+        localStorage.setItem('jwt', data.jwt);
+        console.log(data)
+        user.setCurrentUser(data.user)
+        modalContext.setShow(false);
+        setUsername('');
+        setPassword('');
+        setError([]);
+        
+      }
+    })
+    .catch(errors => console.log(errors))
 
   }
+
 
   return (
     <div 
@@ -75,10 +115,31 @@ const AuthModal = () => {
         <div className='border border-app_dark-brightest w-3/4 sm:w-1/2 md:w-1/3 bg-app_dark p-5 text-app_text self-center mx-auto rounded-md'
         > 
           {modalType === 'login' && (
+            <>
              <h1 className='text-2xl mb-5'>Login</h1>
+             {error && (
+              <>
+              <p className='text-red-600 m-3'>
+               {error}
+              </p>
+              </>
+             )}
+            </>
           )}
           {modalType === 'register' && (
+            <>
              <h1 className='text-2xl mb-5'>Register</h1>
+             {errors && (
+              <>
+              <ul>
+               {errors.map((error, index) => <li 
+                                       key={index}
+                                       className='text-red-600 m-3'
+                                       > { error }</li>)}
+              </ul>
+              </>
+             )}
+             </>
           )}
           {modalType === 'register' && (
              <label>
@@ -131,7 +192,11 @@ const AuthModal = () => {
             {modalType === 'login' && (
               <div> 
                 New to TeKTalk? <button 
-                  onClick={() => modalContext.setShow('register')}
+                  onClick={() => {
+                    modalContext.setShow('register')
+                    setError('')
+                  }
+                    }
                   className='text-blue-600'
                 >
                   Sign Up
@@ -141,7 +206,11 @@ const AuthModal = () => {
             {modalType === 'register' && (
               <div> 
                 Already have an account? <button 
-                  onClick={() => modalContext.setShow('login')}
+                  onClick={() => {
+                    modalContext.setShow('login')
+                    setErrors([])
+                  }
+                  }
                   className='text-blue-600'
                 >
                 Log In

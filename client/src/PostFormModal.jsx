@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import ClickOutHandler from 'react-clickout-handler';
 import Input from './Input';
 import Textarea from './TextArea';
@@ -7,7 +7,7 @@ import PostFormModalContext from './PostFormModalContext';
 import UserContext from './UserContext';
 import AuthModalContext from './AuthModalContext';
 import { useNavigate } from 'react-router-dom';
-// import { TopicContext } from './TopicContext';
+import { TopicContext } from './TopicContext';
 // import Dropdown from './Dropdown';
 // import SelectDropdown from './SelectDropdown';
 import { Select, Option } from "@material-tailwind/react";
@@ -15,26 +15,28 @@ import { Select, Option } from "@material-tailwind/react";
 
 const PostFormModal = () => {
 
-  const [topics, setTopics] = useState([])
+  const topicContext = useContext(TopicContext)
 
-  useEffect(() => {
-    const token = localStorage.getItem('jwt');
-    if(token) {
+  // const [topics, setTopics] = useState([])
 
-          fetch('/topics', {
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': `bearer ${token}`
-            }
-          })
-          .then(resp => resp.json())
-          .then(data => {
-            //console.log(data)
-            setTopics(data)
-          })
-    }
-   }, [])
+  // useEffect(() => {
+  //   const token = localStorage.getItem('jwt');
+  //   if(token) {
+
+  //         fetch('/topics', {
+  //           headers: {
+  //             'Accept': 'application/json',
+  //             'Content-Type': 'application/json',
+  //             'Authorization': `bearer ${token}`
+  //           }
+  //         })
+  //         .then(resp => resp.json())
+  //         .then(data => {
+  //           //console.log(data)
+  //           setTopics(data)
+  //         })
+  //   }
+  //  }, [])
 
     const modalContext = useContext(PostFormModalContext);
     const user = useContext(UserContext);
@@ -120,7 +122,7 @@ const PostFormModal = () => {
                   setSelectedTopic(value)
                   }}
                   label="Select Topic">
-                {topics.map((topic) => (
+                {topicContext.topics.map((topic) => (
                   <Option index={topic.id} value={`${topic.id}`} key={topic.id}>{topic?.name}</Option>
                  
                 ))}
