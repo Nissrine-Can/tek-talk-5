@@ -18,6 +18,8 @@ function App() {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
 
+  //const [topics, setTopics] = useState([]);
+
   const searchPosts = term => {
     fetch("/posts?search=" + term)
     .then(resp => resp.json())
@@ -67,16 +69,17 @@ function App() {
   return (
     <AuthModalContext.Provider value={{show: showAuthModal, setShow: setShowAuthModal}}>
       <PostFormModalContext.Provider value={{show: showPostFormModal, setShow: setShowPostFormModal}}>
-        <TopicContextProvider>
+        
           <UserContext.Provider value={{...currentUser, logout, setCurrentUser}}>
+          <TopicContextProvider>
             <PostContext.Provider value={{posts, setPosts, filteredPosts, setFilteredPosts, searchPosts, searchResults }}>
               
                 <Routing/> 
               
             </PostContext.Provider>
-           
+            </TopicContextProvider>
           </UserContext.Provider>
-        </TopicContextProvider>
+        
       </PostFormModalContext.Provider>
     </AuthModalContext.Provider>
   );

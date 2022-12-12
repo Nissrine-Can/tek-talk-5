@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const TopicFormModal = () => {
     //const user = useContext(UserContext);
+    //const topicContext = useContext(TopicContext);
 
     const navigate = useNavigate();
 
@@ -38,8 +39,9 @@ const TopicFormModal = () => {
         .then(resp => resp.json())
         .then(data => {
             console.log(data);
+            // topicContext.setTopics({...topicContext.topics, data})
             navigate(`/topics/${name}`)
-            //navigate('/')
+            
             setShow(false)
             setName('')
             
