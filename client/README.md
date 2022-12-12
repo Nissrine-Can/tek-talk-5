@@ -24,11 +24,31 @@ This Project consist of application where the user can creates posts, topics, an
 ## SignUp
 ![signup](https://user-images.githubusercontent.com/88294699/207175177-90d21400-1926-4543-979b-76d4170e27a3.png)
 
+## login
+![login](https://user-images.githubusercontent.com/88294699/207180555-0f80c099-d820-4cd4-a32b-9c83783d4ab0.png)
+
 ## Show post and comments without login in
 ![show post and comments without login in](https://user-images.githubusercontent.com/88294699/207175839-9f65050c-7a6e-49bc-975a-6534c6abe800.png)
 
-## Show post and comments when login in
+## Show post and comments when logged in
 ![show post and comments without login in](https://user-images.githubusercontent.com/88294699/207176628-f36e70aa-bdc1-4168-aae3-f12142dd720a.png)
+
+## Dropdown Menu
+![Dropdown menu](https://user-images.githubusercontent.com/88294699/207180748-e67851b3-fe0a-456f-ab31-2e59ffcf903f.png)
+
+## Create post form
+![create post form](https://user-images.githubusercontent.com/88294699/207179340-f4af8ff4-2150-43bd-9cda-e1e273b5b4e0.png)
+
+## Create topic form
+![create topic form](https://user-images.githubusercontent.com/88294699/207179759-82f47c07-97bb-4335-9406-f99791acaa8f.png)
+
+## search feature
+![search feature](https://user-images.githubusercontent.com/88294699/207180188-69cbedfa-0a26-4a2b-af24-8f2d84d11765.png)
+
+
+
+
+
 
 
 # Getting Started with Create React App
