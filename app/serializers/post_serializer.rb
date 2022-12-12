@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :posted_at, :upvotes, :downvotes, :score
+  attributes :id, :title, :body, :posted_at, :upvotes, :downvotes, :score, :user
   has_one :user
   has_many :comments, serializer: CommentSerializer
 
