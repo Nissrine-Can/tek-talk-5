@@ -16,6 +16,7 @@ class VotesController < ApplicationController
         if existing_vote.size > 0
             #destroy existing vote
             existing_vote.first.destroy
+            render json: vote, status: :created
         else
             #save new vote
             if vote.save 
@@ -27,6 +28,7 @@ class VotesController < ApplicationController
             end
 
         end
+        
         @post = Post.find(post_id)
         
     end
