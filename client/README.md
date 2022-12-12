@@ -13,6 +13,22 @@ This Project consist of application where the user can creates posts, topics, an
 - Ruby (2.7.4) on Rails rails (~> 7.0.4) (API only) for backend
 - Tailwind CSS & Material-tailwind/React for styling
 
+# Features 
+
+## Home page
+![home page](https://user-images.githubusercontent.com/88294699/207173390-b6a8d544-2781-465b-85da-e7b3ec030601.png)
+
+## Sub-topic display list
+![sub-topic display list](https://user-images.githubusercontent.com/88294699/207174057-0d752533-01c8-49fb-8aaf-2f4e006ac56d.png)
+
+## SignUp
+![signup](https://user-images.githubusercontent.com/88294699/207175177-90d21400-1926-4543-979b-76d4170e27a3.png)
+
+## Show post and comments without login in
+![show post and comments without login in](https://user-images.githubusercontent.com/88294699/207175839-9f65050c-7a6e-49bc-975a-6534c6abe800.png)
+
+## Show post and comments when login in
+![show post and comments without login in](https://user-images.githubusercontent.com/88294699/207176628-f36e70aa-bdc1-4168-aae3-f12142dd720a.png)
 
 
 # Getting Started with Create React App
