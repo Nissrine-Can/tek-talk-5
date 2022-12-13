@@ -6,6 +6,10 @@ This Project consist of application where the user can creates posts, topics, an
 
 ![entity relationship diagram](https://user-images.githubusercontent.com/88294699/206871343-5e716dea-2be8-4af0-8d50-341208bc61ee.png)
 
+# Video Walkthrough
+![video walkthrough](https://user-images.githubusercontent.com/88294699/207211697-b54aefef-b31e-4c43-8422-6845cc57a4e8.mp4)
+
+
 # Technologies
 
 - PostgreSQL  (~> 1.1) database
