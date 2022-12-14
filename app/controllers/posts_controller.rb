@@ -24,14 +24,20 @@ class PostsController < ApplicationController
     end
 
     def create
-        @post = Post.create(post_params)
-        @post.topic_posts.create({post_id: @post.id, topic_id: params['topic_ids'][0]})
+        @post = Post.new(post_params)
         
-        if @post.save
-            render json: @post, status: :ok
-        else
-            render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
-        end
+        @post.topic_posts.new({post_id: @post.id, topic_id: params['topic_ids'][0]})
+      # @post.save!
+     
+        
+              if @post.save
+                 render json: @post, status: :created
+               else
+                   render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
+               end
+        #     else
+        #       render json: { msg: "Post creation failed.." }, status: :bad_request
+        # end
     end
 
     
