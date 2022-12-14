@@ -11,8 +11,10 @@ class Post < ApplicationRecord
   has_many :users, through: :votes
 
   accepts_nested_attributes_for :comments, reject_if: :all_blank
-  #validates: :body, presence: true
+  validates :body, presence: true
 
+  
+  
   
 
   # def score #diff between upvote and downvote
