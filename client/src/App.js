@@ -71,13 +71,15 @@ function App() {
       <PostFormModalContext.Provider value={{show: showPostFormModal, setShow: setShowPostFormModal}}>
         
           <UserContext.Provider value={{...currentUser, logout, setCurrentUser}}>
-          <TopicContextProvider>
+         
             <PostContext.Provider value={{posts, setPosts, filteredPosts, setFilteredPosts, searchPosts, searchResults }}>
+            <TopicContextProvider>
               
                 <Routing/> 
+            </TopicContextProvider>
               
             </PostContext.Provider>
-            </TopicContextProvider>
+            
           </UserContext.Provider>
         
       </PostFormModalContext.Provider>

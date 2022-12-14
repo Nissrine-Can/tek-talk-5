@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   get '/topics/:name', to: 'topics#show'
   
 
-
   resources :votes  #, except: [:create]
   # post '/post/vote', to: 'votes#create'
  

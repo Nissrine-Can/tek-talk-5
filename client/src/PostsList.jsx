@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import Post from './Post';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -23,8 +23,23 @@ const PostsList = () => {
     if(token) {
 
       let url = '/posts'
+      fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `bearer ${token}`
+        }
+      })
+      .then(resp => resp.json())
+      .then(data => {
+        console.log('all data', data)
+        postContext.setPosts(data)
+        //postContext.setFilteredPosts(data)
+        
+      })
       if(name){
-        url += '?name=' + name
+        // url += '?name=' + name
+        url = `/topics/${name}`
       }
 
         fetch(url, {
@@ -36,9 +51,10 @@ const PostsList = () => {
           })
           .then(resp => resp.json())
           .then(data => {
-            console.log(data)
-            postContext.setPosts(data)
-            postContext.setFilteredPosts(data)
+            //console.log('data.posts', data.posts)
+            //postContext.setPosts(data.posts)
+            postContext.setFilteredPosts(data.posts)
+            
           })
 
         
@@ -76,9 +92,13 @@ const PostsList = () => {
       </div>
       
       <div className='px-6'> 
-        {postContext.filteredPosts.length === 0 ? <h1 className='text-white text-xl pl-8'>There are no posts on this topic. Be the first one to post!</h1> : postContext.filteredPosts.map(post => (
+        {!!name ? (postContext.filteredPosts?.length === 0 ? <h1 className='text-white text-xl pl-8'>There are no posts on this topic. Be the first one to post!</h1> : postContext.filteredPosts?.map(post => (
           <Post key={post.id} {...post} isListing={true} />
-            ))}
+            ))) 
+            :
+           (postContext.posts.map(post => <Post key={post.id} {...post} isListing={true} />))
+          }
+         
       </div>
       
       

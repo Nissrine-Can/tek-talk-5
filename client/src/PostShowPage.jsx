@@ -9,14 +9,15 @@ const PostShowPage = (props) => {
 
    const [post, setPost] = useState({});
    const [comments, setComments] = useState([]);
+   //const [errMsg, setErrMsg] = useState('')
 
    const user = useContext(UserContext);
 
    //console.log('user', user)
  
-   const [score, setScore] = useState(0);
+   //const [score, setScore] = useState(0);
    const [hasVoted, setHasVoted] = useState(false);
-   const [voteIs, setVoteIs] = useState(false);
+   //const [voteIs, setVoteIs] = useState(false);
 
    const [voteUp, setVoteUp] = useState(null);
    const [VoteDown, setVoteDown] = useState(null);
@@ -33,6 +34,17 @@ const PostShowPage = (props) => {
             }
         })
         .then(resp => resp.json())
+          // if (resp.status === 400){
+          //   //throw new Error(resp.statusText)
+          //   return resp.json().then(errors => {
+          //     console.log(errors.message);
+          //     setErrMsg(errors.message);
+          //   }
+          //     )
+          // } else {
+            //return resp.json()
+         // }
+        //})
         .then(data => {
           console.log('show', data);
           setPost(data)
@@ -179,19 +191,25 @@ const PostShowPage = (props) => {
        {user.username && (
         <>
            <hr className='border-app_border my-4'/>
-          <CommentForm {...post} addComment={addComment} />
+           
+           <CommentForm {...post} addComment={addComment} />
+          
         
         </>
        )}
-          {/* <hr className='border-app_border my-4'/>
-          <CommentForm {...post} addComment={addComment} />
+       
+        {/* <hr className='border-app_border my-4'/>
+        <CommentForm {...post} addComment={addComment} />
          */}
 
         
         <hr className='border-app_border my-4'/>
+        
          {!!comments && (
             <Comments postId={post.id} comments={comments} />
          )}
+
+
           
     </>
   )

@@ -50,6 +50,7 @@ const PostFormModal = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [selectedTopic, setSelectedTopic] = useState('');
+    const [errs, setErrs] = useState([]);
 
     const navigate = useNavigate();
 
@@ -74,20 +75,42 @@ const PostFormModal = () => {
            })
         })
         .then(resp => {
-            if(resp.status !== 401) {
-             return resp.json()
-            } else {
+            if(resp.status === 401) {
               authModalContext.setShow('login')
+             
+            } else if (resp.status === 422){
+              //throw new Error(resp.statusText)
+              return resp.json().then(errors => {
+                console.log(errors.errors)
+                setErrs(errors.errors)
+              }
+                )
+            } else {
+              return resp.json()
             }
         })
         .then(data => {
-            console.log(data);
-            navigate(`/posts/${data.id}`)
-            modalContext.setShow(false)
-            setTitle('')
-            setBody('')
-            setSelectedTopic('')
+        //   if(data.error) {
+        //     console.log('data.err', data.error)
+        //     //setErrs(data.errors)
+        //     setTitle('')
+        //     setBody('')
+        //     setSelectedTopic('')
+        //  } else{
+          console.log(data);
+          navigate(`/posts/${data.id}`)
+          modalContext.setShow(false)
+          setTitle('')
+          setBody('')
+          setSelectedTopic('')
+          setErrs([])
+         //}
+           
          })
+        //  .catch(errors => console.log(errors))
+
+
+
        }
       };
 
@@ -100,7 +123,16 @@ const PostFormModal = () => {
         <div className='border border-app_dark-brightest w-3/4 md:w-1/2 bg-app_dark p-5 text-app_text self-center mx-auto rounded-md'>
 
             <h1 className='text-2xl mb-5'>Create a post</h1> 
-
+            {errs && (
+              <>
+              <ul>
+               {errs.map((error, index) => <li 
+                                       key={index}
+                                       className='text-red-600 m-3'
+                                       > { error }</li>)}
+              </ul>
+              </>
+             )}
             <Input 
                value={title}
                name= 'title'

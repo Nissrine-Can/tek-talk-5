@@ -14,6 +14,7 @@ const TopicFormModal = () => {
     const navigate = useNavigate();
 
     const [name, setName] = useState('');
+    const [errMsgs, setErrMsgs] = useState([]);
 
     const {show, setShow} = useContext(TopicContext);
     if(!show){
@@ -36,22 +37,47 @@ const TopicFormModal = () => {
             //user_id: user.id
         })
         })
-        .then(resp => resp.json())
+        .then(resp => {
+            if(resp.status !== 404) {
+                return resp.json()
+              } else {
+                throw new Error(resp.statusText)
+              }
+        })
         .then(data => {
-            console.log(data);
+            if(data.errors) {
+                console.log('data.err', data.errors)
+                setErrMsgs(data.errors)
+                setName('');
+             } else{
+                console.log(data);
             // topicContext.setTopics({...topicContext.topics, data})
             navigate(`/topics/${name}`)
             
             setShow(false)
             setName('')
+            setErrMsgs([])
             
+            }
+
          })
+         
     }
     }
 
   return (
     <PopUp open={show} onClickOut={() => setShow(false)}>
         <h1 className='text-2xl mb-5'>Create a topic</h1> 
+        {errMsgs && (
+              <>
+              <ul>
+               {errMsgs.map((error, index) => <li 
+                                       key={index}
+                                       className='text-red-600 m-3'
+                                       > { error }</li>)}
+              </ul>
+              </>
+             )}
         <Input
            value={name}
            onChange={(e) => setName(e.target.value)}
